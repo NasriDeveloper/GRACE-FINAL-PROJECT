@@ -11,9 +11,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
-defineProps({
-    title: String,
-});
+defineProps(["forms", "forms1", "forms2", "forms3", "forms4", "forms5", "forms6", "forms7"]);
 
 const showingNavigationDropdown = ref(false);
 
@@ -102,19 +100,19 @@ const logout = () => {
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
+                    <span class="text-bold text-lg">{{ forms1.length }}</span>
                     <span>Students are registered for standard one</span>
                   </p>
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
+                    <span class="text-bold text-lg">{{ forms2.length }}</span>
                     <span>Students are registered for standard two</span>
                   </p>
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
+                    <span class="text-bold text-lg">{{ forms3.length }}</span>
                     <span>Students are registered for standard three</span>
                   </p>
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
+                    <span class="text-bold text-lg">{{ forms4.length }}</span>
                     <span>Students are registered for standard four</span>
                   </p>
                 
@@ -153,20 +151,20 @@ const logout = () => {
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
+                    <span class="text-bold text-lg">{{ forms5.length }}</span>
                     <span>Students are registered for standard five</span>
                   </p>
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
+                    <span class="text-bold text-lg">{{ forms6.length }}</span>
                     <span>Students are registered for standard six</span>
                   </p>
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
+                    <span class="text-bold text-lg">{{ forms7.length }}</span>
                     <span>Students are registered for standard seven</span>
                   </p>
                   <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">820</span>
-                    <span>Teachers are registered at graceschools</span>
+                    <span class="text-bold text-lg">{{ forms.length }}</span>
+                    <span>Total Students are registered at graceschools</span>
                   </p>
                 
                 </div>

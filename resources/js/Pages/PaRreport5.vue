@@ -53,7 +53,7 @@ const logout = () => {
         </div>
     </nav><br><br><br><br><br><br><br><br>
     
-   
+    <div class="table-container">
   <table>
     <tr v-for="user in users" :key="user.id">
         <th><img src="homes/img/logo/logo.png" class="h-20"></th>
@@ -202,6 +202,10 @@ const logout = () => {
 
 
 <table>
+        <th class="grace">CHARACTER ASSESMENT.</th>
+</table>
+
+<table>
     <thead>
         <tr>
         <th>DOMAIN</th>
@@ -227,7 +231,7 @@ const logout = () => {
 
 <table>
     <thead>
-        <th>PRINCIPAL'S COMMENT</th>
+        <th class="grace">PRINCIPAL'S COMMENT</th>
     </thead>
     <tbody>
         <tr v-for="user in users" :key="user.id">
@@ -242,7 +246,7 @@ const logout = () => {
 
 <table>
     <thead>
-        <th>CLASS TEACHER'S COMMENT</th>
+        <th class="grace">CLASS TEACHER'S COMMENT</th>
     </thead>
     <tbody>
         <tr v-for="user in users" :key="user.id">
@@ -292,7 +296,8 @@ const logout = () => {
    
 </table>
 
-   
+   </div>
+
   
 
 
@@ -308,41 +313,59 @@ const logout = () => {
 
 </template>
 
-<style>
-
-
-
-
-
-</style>
 
 
 <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    .table-container {
+        width: 100%; /* Enable horizontal scrolling on small screens */
+        overflow-x: auto; /* Add horizontal scroll bar if needed */
+    }
 
-        td, th {
-            text-align: center;
-            padding: 8px;
-            border: 1px solid black;
-        }
-        .grace {
-            background-color: gray;
-        }
-        
-       .grac {
-            background-color: yellow;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        .card-title{
-              text-align: center;
-              padding-left: 400px;
-         }
-         img {
+    td,
+    th {
+        text-align: center;
+        padding: 8px;
+        border: 1px solid black;
+    }
+
+    .grace {
+        background-color: gray;
+    }
+
+    .grac {
+        background-color: yellow;
+    }
+
+    .card-title {
+        text-align: center;
+        padding-left: 400px;
+    }
+
+    img {
         display: block; /* Make sure the image is a block element */
         margin: auto; /* Center the image horizontally */
     }
-      
-    </style>
+
+    /* Responsive CSS */
+    @media only screen and (max-width: 768px) {
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td,
+        th {
+            padding: 4px;
+            font-size: 0.8em; /* Adjust font size for smaller screens */
+        }
+    }
+</style>
+

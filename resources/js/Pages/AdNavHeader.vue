@@ -56,13 +56,7 @@ watch(search, value => {
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-    <form @submit.prevent="logout">
-        <DropdownLink as="button" style="background-color: black;">
-            <a class='waves-effect dropdown-button top-user-pro' data-activates='top-menu' style="color: white;">
-                LOGOUT
-            </a>
-        </DropdownLink>
-    </form>
+   
 </li>
      
     </ul>
@@ -83,7 +77,7 @@ watch(search, value => {
                   <i class="fas fa-search"></i>
                 </button>
                 <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
+              
                 </button>
               </div>
             </div>
@@ -99,10 +93,15 @@ watch(search, value => {
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
+        <form @submit.prevent="logout">
+                <DropdownLink as="button" style="background-color: black;">
+                   <a class='waves-effect dropdown-button top-user-pro' data-activates='top-menu' style="color: white;">
+                    LOGOUT
+                  </a>
+                </DropdownLink>
+    </form>
       </li>
+     
     </ul>
   </nav>
   </div>

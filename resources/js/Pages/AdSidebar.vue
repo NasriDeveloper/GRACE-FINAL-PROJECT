@@ -9,6 +9,7 @@ const sidebarLinks = [
   { name: 'TEACHER REGISTRATION', href: '/teacher', current: true },
   { name: 'VIEW STUDENTS', href: '/nas', current: true },
   { name: 'VIEW PARENTS', href: '/viewp', current: true },
+  { name: 'EXCEL REPORT', href: '/excel', current: true },
   { name: 'REPORT UPLOAD1,2', href: '/reportT1', current: true },
   { name: 'REPORT UPLOAD3,4,7', href: '/reportT', current: true },
   { name: 'REPORT UPLOAD5,6', href: '/reportT5', current: true },

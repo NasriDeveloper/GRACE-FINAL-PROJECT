@@ -68,6 +68,16 @@ const logout = () => {
   </div>
 </div>
 
+<div class="text-center">
+  <img 
+    src="homes/img/logo/box.png" 
+    class="mx-auto" 
+    alt="Flowbite Logo"
+    style="height: 300px; width: 300px;" 
+  />
+</div>
+
+
 
 
 

@@ -4,12 +4,14 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Imports\ClasfoImport;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Form;
 use App\Models\Paret;
 use App\Models\Report;
 use App\Models\Repog;
+use App\Models\Tast;
 use App\Models\Repom;
 use App\Models\Repoz;
 use App\Models\Repob;
@@ -21,6 +23,7 @@ use App\Models\Coze;
 use App\Http\Controllers\CustomerController;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 /*
@@ -55,6 +58,11 @@ Route::get('all', function(){
 Route::get('/repotmn', function(){
     return Inertia::render('AdAll');
 })->name('AdAll');
+
+
+Route::get('/excel', function(){
+    return Inertia::render('Excel');
+})->name('excel');
 
 
 
@@ -667,6 +675,16 @@ Route::middleware([
         $user = Auth::user();
         $users = User::all();
         $forms = Form::all();
+        $forms1=Form::where('class','=',1)->get();
+        $forms2=Form::where('class','=',2)->get(); 
+        $forms3=Form::where('class','=',3)->get();
+        $forms4=Form::where('class','=',4)->get();
+        $forms5=Form::where('class','=',5)->get();
+        $forms6=Form::where('class','=',6)->get();
+        $forms7=Form::where('class','=',7)->get();
+        
+        
+
        
 
         if ($user) {
@@ -674,6 +692,14 @@ Route::middleware([
                 return Inertia::render('Dashboard', [
                     'users' => $users,
                     'forms' => $forms,
+                    'forms1' => $forms1,
+                    'forms2' => $forms2,
+                    'forms3' => $forms3,
+                    'forms4' => $forms4,
+                    'forms5' => $forms5,
+                    'forms6' => $forms6,
+                    'forms7' => $forms7,
+                   
                 ]);
             } else {
                 return Inertia::render('Login');
@@ -1010,6 +1036,23 @@ Route::post('/Subform', function (Request $request) {
        Paret::create($validatedData);       
 })->name('Subform');
 
+Route::post('/Submitexcel', function (Request $request) {
+    
+    $request->validate([
+        'excel' => [
+         'required',
+         'file'
+        ],
+    ]);
+ 
+
+    Excel::import(new ClasfoImport, $request->file('excel'));
+ 
+     
+             
+ })->name('Submitexcel');
+
+
 Route::post('/ClassTeacher', function (Request $request) {
     // Validate the form data
     $validatedData = $request->validate([
@@ -1142,418 +1185,47 @@ Route::get('repot', function () {
     // Get the specific user's email
     $email = Auth::user()->email;
 
-    $userExistsInRepot = Repot::where('email', $email)->exists();
+    $users=Tast::where('email','=', $email)->get(); 
+
+    // Check if the user's email exists in the repot table
+    $userExistsInRepot = Tast::where('email', $email)->exists();
 
     // If the user's email doesn't exist in the repot table, redirect them
     if (!$userExistsInRepot) {
         return redirect()->route('AdAll');
     }
-    
-    // Select all users grouped by their Class
-    $usersByClass = Repot::whereIn('Class', [3, 4, 7])->get()->groupBy('Class');
 
-    $result = collect();
 
-    foreach ($usersByClass as $class => $users) {
-        // Sort users within the class by average score
-        $sortedUsers = $users->sortByDesc(function ($user) {
-            return calculateAverageScore($user);
-        });
 
-        // Calculate positions for each user within the class
-        $position = 1;
-        foreach ($sortedUsers as $user) {
-            // Calculate total score and average score for the user
-            $user->totalScore = calculateTotalScore($user);
-            $user->averageScore = calculateAverageScore($user);
-
-            // Calculate remarks and grades for each subject
-            foreach (['English', 'Kiswahili', 'CivicsMoral', 'SocialStudies', 'ScienceTechn', 'Mathematics'] as $subject) {
-                $subjectScore = $user->{$subject . 'Score'};
-                $user->{$subject . 'Remark'} = calculateRemark($subjectScore);
-                $user->{$subject . 'Grade'} = calculateGrade($subjectScore);
-            }
-
-            // Calculate average score grade
-            $user->averageScoreRemark = calculateRemark($user->averageScore);
-            $user->averageScoreGrade = calculateGrade($user->averageScore);
-
-            // Calculate positions for each subject
-            $subjectPositions = [];
-            foreach (['English', 'Kiswahili', 'CivicsMoral', 'SocialStudies', 'ScienceTechn', 'Mathematics'] as $subject) {
-                $subjectScore = $user->{$subject . 'Score'};
-                $subjectUsers = $sortedUsers->filter(function ($u) use ($subject, $subjectScore) {
-                    return $u->{$subject . 'Score'} > $subjectScore;
-                });
-                $subjectPositions[$subject] = $subjectUsers->count() + 1;
-            }
-            $user->subjectPositions = $subjectPositions;
-
-            // Calculate out-of based on the total number of users in the class
-            $user->outOf = count($sortedUsers);
-
-            $user->classPosition = $position; // Assign the class position to the user
-            
-            // Append the photo URL to the user object
-            $user->photo = asset('photos/' . $user->photo); 
-            $user->photo1 = asset('photos/' . $user->photo1); 
-            $user->photo2 = asset('photos/' . $user->photo2); 
-            $user->photo3 = asset('photos/' . $user->photo3); 
-
-            $result->push($user);
-            $position++;
-        }
-    }
-
-    // Filter users by the specific user's email
-    $currentUser = $result->firstWhere('email', $email);
-
-    // Calculate total score for the current user
-    $currentUserTotalScore = calculateTotalScore($currentUser);
-
-    // Calculate average score for the current user
-    $currentUserAverage = calculateAverageScore($currentUser);
-
+   
     return Inertia::render('PaRreport', [
-        'users' => [$currentUser], // Wrap the current user in an array
-        'currentUserTotalScore' => $currentUserTotalScore,
-        'currentUserAverage' => $currentUserAverage,
+        'users' => $users,
     ]);
 })->name('repot');
 
 
-function calculateTotalScore($user) {
-    $subjectScores = [
-        $user->EnglishScore,
-        $user->KiswahiliScore,
-        $user->CivicsMoralScore,
-        $user->SocialStudiesScore,
-        $user->ScienceTechnScore,
-        $user->MathematicsScore,
-    ];
-
-    // Sum up all subject scores
-    $totalScore = array_reduce($subjectScores, function ($total, $score) {
-        return $total + (floatval($score) ?: 0);
-    }, 0);
-
-    return $totalScore;
-}
-
-function calculateAverageScore($user) {
-    $totalScore = calculateTotalScore($user);
-    $numberOfSubjects = 6;
-
-    // Calculate the average by dividing the total score by the number of subjects
-    $averageScore = $numberOfSubjects > 0 ? $totalScore / $numberOfSubjects : 0;
-
-    return number_format($averageScore, 2); // Return the average rounded to 2 decimal places
-}
-
-function calculateRemark($score) {
-    if ($score >= 80) {
-        return 'Excellent';
-    } else if ($score >= 65) {
-        return 'Very Good';
-    } else if ($score >= 55) {
-        return 'Good';
-    } else if ($score >= 45) {
-        return 'Poor';
-    } else if ($score >= 34) {
-        return 'Very Poor';
-    } else {
-        return 'Low Performance';
-    }
-}
-
-function calculateGrade($score) {
-    if ($score >= 80) {
-        return 'A';
-    } else if ($score >= 65) {
-        return 'B';
-    } else if ($score >= 55) {
-        return 'C';
-    } else if ($score >= 45) {
-        return 'D';
-    } else if ($score >= 34) {
-        return 'E';
-    } else {
-        return 'F';
-    }
-}
-
-
-
-
-
-function calculateTotalScorey($user) {
-    $subjectScores = [
-        $user->EnglishScore,
-        $user->KiswahiliScore,
-        $user->CivicsMoralScore,
-        $user->SocialStudiesScore,
-        $user->ScienceTechnScore,
-        $user->MathematicsScore,
-        $user->vskillsScore,
-    ];
-
-    // Sum up all subject scores
-    $totalScore = array_reduce($subjectScores, function ($total, $score) {
-        return $total + (floatval($score) ?: 0);
-    }, 0);
-
-    return $totalScore;
-}
-
-function calculateAverageScorey($user) {
-    $totalScore = calculateTotalScorey($user);
-    $numberOfSubjects = 7;
-
-    // Calculate the average by dividing the total score by the number of subjects
-    $averageScore = $numberOfSubjects > 0 ? $totalScore / $numberOfSubjects : 0;
-
-    return number_format($averageScore, 2); // Return the average rounded to 2 decimal places
-}
-
-
-
-
-Route::get('repotym', function () {
-    // Get the specific user's email
-    $email = Auth::user()->email;
-
-
-    $userExistsInRepot = Repogy::where('email', $email)->exists();
 
-    // If the user's email doesn't exist in the repot table, redirect them
-    if (!$userExistsInRepot) {
-        return redirect()->route('AdAll');
-    }
-    
-    // Select all users grouped by their Class
-    $usersByClass = Repogy::whereIn('Class', [5, 6])->get()->groupBy('Class');
 
-    $result = collect();
 
-    foreach ($usersByClass as $class => $users) {
-        // Sort users within the class by average score
-        $sortedUsers = $users->sortByDesc(function ($user) {
-            return calculateAverageScorey($user);
-        });
-
-        // Calculate positions for each user within the class
-        $position = 1;
-        foreach ($sortedUsers as $user) {
-            // Calculate total score and average score for the user
-            $user->totalScore = calculateTotalScorey($user);
-            $user->averageScore = calculateAverageScorey($user);
-
-            // Calculate remarks and grades for each subject
-            foreach (['English', 'Kiswahili', 'CivicsMoral', 'SocialStudies', 'ScienceTechn', 'Mathematics', 'vskills'] as $subject) {
-                $subjectScore = $user->{$subject . 'Score'};
-                $user->{$subject . 'Remark'} = calculateRemark($subjectScore);
-                $user->{$subject . 'Grade'} = calculateGrade($subjectScore);
-            }
-
-            // Calculate average score grade
-            $user->averageScoreRemark = calculateRemark($user->averageScore);
-            $user->averageScoreGrade = calculateGrade($user->averageScore);
-
-            // Calculate positions for each subject
-            $subjectPositions = [];
-            foreach (['English', 'Kiswahili', 'CivicsMoral', 'SocialStudies', 'ScienceTechn', 'Mathematics', 'vskills'] as $subject) {
-                $subjectScore = $user->{$subject . 'Score'};
-                $subjectUsers = $sortedUsers->filter(function ($u) use ($subject, $subjectScore) {
-                    return $u->{$subject . 'Score'} > $subjectScore;
-                });
-                $subjectPositions[$subject] = $subjectUsers->count() + 1;
-            }
-            $user->subjectPositions = $subjectPositions;
-
-            // Calculate out-of based on the total number of users in the class
-            $user->outOf = count($sortedUsers);
-
-            $user->classPosition = $position; // Assign the class position to the user
-            
-            // Append the photo URL to the user object
-            $user->photo = asset('photos/' . $user->photo); 
-            $user->photo1 = asset('photos/' . $user->photo1); 
-            $user->photo2 = asset('photos/' . $user->photo2); 
-            $user->photo3 = asset('photos/' . $user->photo3); 
-
-            $result->push($user);
-            $position++;
-        }
-    }
-
-    // Filter users by the specific user's email
-    $currentUser = $result->firstWhere('email', $email);
-
-    // Calculate total score for the current user
-    $currentUserTotalScore = calculateTotalScorey($currentUser);
-
-    // Calculate average score for the current user
-    $currentUserAverage = calculateAverageScorey($currentUser);
-
-    return Inertia::render('PaRreport5', [
-        'users' => [$currentUser], // Wrap the current user in an array
-        'currentUserTotalScore' => $currentUserTotalScore,
-        'currentUserAverage' => $currentUserAverage,
-    ]);
-})->name('repotym');
-
-
-
-
-
-
-
-
-Route::get('repotis', function () {
-    // Get the specific user's email
-    $email = Auth::user()->email;
-
-    $userExistsInRepot = Repog::where('email', $email)->exists();
-
-    // If the user's email doesn't exist in the repot table, redirect them
-    if (!$userExistsInRepot) {
-        return redirect()->route('AdAll');
-    }
-    
-    // Select all users grouped by their Class
-    $usersByClass = Repog::whereIn('Class', [1, 2])->get()->groupBy('Class');
-
-    $result = collect();
-
-    foreach ($usersByClass as $class => $users) {
-        // Sort users within the class by average score
-        $sortedUsers = $users->sortByDesc(function ($user) {
-            return calculateAverageScoreL($user);
-        });
-
-        // Calculate positions for each user within the class
-        $position = 1;
-        foreach ($sortedUsers as $user) {
-            // Calculate total score and average score for the user
-            $user->totalScore = calculateTotalScoreL($user);
-            $user->averageScore = calculateAverageScoreL($user);
-
-            // Calculate remarks and grades for each subject
-            foreach (['Numerous', 'Reading', 'Writting', 'HealthCare', 'ArtSport'] as $subject) {
-                $subjectScore = $user->{$subject . 'Score'};
-                $user->{$subject . 'Remark'} = calculateRemark($subjectScore);
-                $user->{$subject . 'Grade'} = calculateGrade($subjectScore);
-            }
-
-            // Calculate average score grade using different variables
-            $user->averageScoreRemark = calculateRemarkForAverageScore($user->averageScore);
-            $user->averageScoreGrade = calculateGradeForAverageScore($user->averageScore);
-
-            // Calculate positions for each subject
-            $subjectPositions = [];
-            foreach (['Numerous', 'Reading', 'Writting', 'HealthCare', 'ArtSport'] as $subject) {
-                $subjectScore = $user->{$subject . 'Score'};
-                $subjectUsers = $sortedUsers->filter(function ($u) use ($subject, $subjectScore) {
-                    return $u->{$subject . 'Score'} > $subjectScore;
-                });
-                $subjectPositions[$subject] = $subjectUsers->count() + 1;
-            }
-            $user->subjectPositions = $subjectPositions;
-
-            // Calculate out-of based on the total number of users in the class
-            $user->outOf = count($sortedUsers);
-
-            $user->classPosition = $position; // Assign the class position to the user
-            
-            // Append the photo URL to the user object
-            $user->photo = asset('photos/' . $user->photo); 
-            $user->photo1 = asset('photos/' . $user->photo1); 
-            $user->photo2 = asset('photos/' . $user->photo2); 
-            $user->photo3 = asset('photos/' . $user->photo3); 
-
-            $result->push($user);
-            $position++;
-        }
-    }
-
-    // Filter users by the specific user's email
-    $currentUser = $result->firstWhere('email', $email);
-
-    // Calculate total score for the current user
-    $currentUserTotalScore = calculateTotalScoreL($currentUser);
-
-    // Calculate average score for the current user
-    $currentUserAverage = calculateAverageScoreL($currentUser);
-
-    return Inertia::render('PaRreport1', [
-        'users' => [$currentUser], // Wrap the current user in an array
-        'currentUserTotalScore' => $currentUserTotalScore,
-        'currentUserAverage' => $currentUserAverage,
-    ]);
-})->name('repotis');
-
-
-function calculateTotalScoreL($user) {
-    $subjectScores = [
-        $user->NumerousScore,
-        $user->ReadingScore,
-        $user->WrittingScore,
-        $user->HealthCareScore,
-        $user->ArtSportScore,
-    ];
-
-    // Sum up all subject scores
-    $totalScore = array_reduce($subjectScores, function ($total, $score) {
-        return $total + (floatval($score) ?: 0);
-    }, 0);
-
-    return $totalScore;
-}
-
-function calculateAverageScoreL($user) {
-    $totalScore = calculateTotalScoreL($user);
-    $numberOfSubjects = 5; // Number of subjects used for average calculation
-
-    // Calculate the average by dividing the total score by the number of subjects
-    $averageScore = $numberOfSubjects > 0 ? $totalScore / $numberOfSubjects : 0;
-
-    return number_format($averageScore, 2); // Return the average rounded to 2 decimal places
-}
-
-
-
-
-
-// Additional functions for average score grade calculation
-
-function calculateRemarkForAverageScore($score) {
-    if ($score >= 80) {
-        return 'Excellent';
-    } else if ($score >= 65) {
-        return 'Very Good';
-    } else if ($score >= 55) {
-        return 'Good';
-    } else if ($score >= 45) {
-        return 'Poor';
-    } else if ($score >= 34) {
-        return 'Very Poor';
-    } else {
-        return 'Low Performance';
-    }
-}
-
-function calculateGradeForAverageScore($score) {
-    if ($score >= 80) {
-        return 'A';
-    } else if ($score >= 65) {
-        return 'B';
-    } else if ($score >= 55) {
-        return 'C';
-    } else if ($score >= 45) {
-        return 'D';
-    } else if ($score >= 34) {
-        return 'E';
-    } else {
-        return 'F';
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

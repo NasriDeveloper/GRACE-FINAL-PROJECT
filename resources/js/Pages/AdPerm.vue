@@ -36,41 +36,47 @@ const logout = () => {
 
 <template>
   <AppLayout title="Dash">
-    <body>
-        <AdNavHeader />
-      <!-- ... (existing code) ... -->
-      <div class="container-fluid sb2">
-        <div class="row">
+    <body class="hold-transition sidebar-mini">
+<div class="wrapper">
+<AdNavHeader />
 
-            <AdSidebar />
-            <div class="sb2-2">
-                <div class="sb2-2-3">
-        <div class="row">
-          
-          <div class="col-md-12">
-            <div class="box-inn-sp admin-form">
-                <div class="inn-title">
-                    <h4 class="text-center">You have no permission to access this page</h4>
-                   
-                </div>
-              <!-- ... (existing code) ... -->
 
-              <!-- Student Details Form -->
-              <div class="tab-inn">
-               <h1 class="text-center"><b>THIS IS NOT YOUR CLASS</b></h1>
-              </div>
-            </div>
-          </div>
+<AdSidebar />
+
+
+<div class="content-wrapper">
+  <div class="card card-dark">
+    <div class="card-header border-0">
+        <h3 class="card-title"><b>THIS IS NOT YOUR CLASS.</b></h3>
+        <div class="card-tools">
+            <a href="#" class="btn btn-tool btn-sm">
+                <i class="fas fa-download"></i>
+            </a>
+            <a href="#" class="btn btn-tool btn-sm">
+                <i class="fas fa-bars"></i>
+            </a>
         </div>
-      </div>
-            </div>
-            
-      <!-- User Details Section -->
-      
     </div>
+  </div>
+  
 </div>
-    </body>
+</div>
+
+   
+   
+</body>
   </AppLayout>
 </template>
+
+
+
+<style>
+
+.card-title{
+  text-align: center;
+  padding-left: 400px;
+}
+
+</style>
 
 

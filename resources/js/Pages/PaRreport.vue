@@ -53,34 +53,36 @@ const logout = () => {
         </div>
     </nav><br><br><br><br><br><br><br><br>
     
-   
+    <div class="table-container">
   <table>
-    <tr v-for="user in users" :key="user.id">
+    <tr>
         <th><img src="homes/img/logo/logo.png" class="h-20"></th>
         <th> GRACE SCHOOLS KIGAMBONI.<br> Registration No. EM.17031 Kigamboni-Mjimwema Road.</th>
         <!-- Display the image in the PDF -->
-        <th><img :src="user.photo" class="h-20">
+        <th><img src="homes/img/logo/logo.png" class="h-20">
         </th>
 
     </tr>
   </table><br>
+
+
   <table>
     <tr v-for="user in users" :key="user.id">
-        <th> ANNUAL EXAMINATION REPORT {{ user.DateOf }}</th>
+        <th class="grac"> ANNUAL EXAMINATION REPORT {{ user.dop }}</th>
     </tr>
   </table><br>
   <table>
         <tr v-for="user in users" :key="user.id">
             <th>Name</th>
-            <td>{{user.Name}}</td>
+            <td>{{user.NAME}}</td>
             <th>Sex</th>
-            <td>{{user.Sex}}</td>
+            <td>{{user.SEX}}</td>
         </tr>
         <tr v-for="user in users" :key="user.id">
             <th>Class</th>
-            <td>{{user.Class}}</td>
+            <td>{{user.CLASS}}</td>
             <th>Stream</th>
-            <td>{{user.Stream}}</td>
+            <td>{{user.STREAM}}</td>
         </tr>
      
     </table><br>
@@ -95,7 +97,7 @@ const logout = () => {
             <th>Rank</th>
             <th>Out of</th>
             <th>Remarks</th>
-            <th>Subject</th>
+            <th>Subject's Teacher</th>
         </tr>
     </thead>
     <tbody>
@@ -103,59 +105,64 @@ const logout = () => {
         <tr v-for="user in users" :key="user.id">
             <td>1</td>
             <td>ENGLISH</td>
-            <td>{{ user.EnglishScore }}</td>
-            <td>{{ user.EnglishGrade }} </td>
-            <td>{{ user.subjectPositions['English'] }}</td>
-            <td>{{ user.outOf}}</td> 
-            <td>{{ user.EnglishRemark }} </td>     
-            <td>{{ user.EnglishSubject }}</td>      
+            <td>{{ user.ENGSCORE }}</td>
+            <td>{{ user.ENGGRD }} </td>
+            <td>{{ user.ENGPOS }}</td>
+            <td>{{ users.length}}</td> 
+            <td>{{ user.ENGRE }} </td>
+            <td>{{ user.ENGTE }} </td>          
+            
            
         </tr>
         <tr v-for="user in users" :key="user.id">
             <td>2</td>
             <td>KISWAHILI</td>
-            <td>{{ user.KiswahiliScore }}</td>
-            <td>{{ user.KiswahiliGrade }}</td>
-            <td>{{ user.subjectPositions['Kiswahili'] }}</td>
-            <td>{{ user.outOf }}</td>
-            <td>{{ user.KiswahiliRemark }}</td>
-            <td>{{ user.KiswahiliSubject }}</td>
+            <td>{{ user.KISWSCORE }}</td>
+            <td>{{ user.KISWGRD }}</td>
+            <td>{{ user.KISWPOS }}</td>
+            <td>{{ users.length }}</td>
+            <td>{{ user.KISWRE }}</td>
+            <td>{{ user.KISWTE }}</td>
+
      
            
         </tr>
         <tr v-for="user in users" :key="user.id">
             <td>3</td>
             <td>Civics Moral</td>
-            <td>{{ user.CivicsMoralScore }}</td>
-            <td>{{ user.CivicsMoralGrade }}</td>
-            <td>{{ user.subjectPositions['CivicsMoral'] }}</td>
-            <td>{{ user.outOf }}</td>
-            <td>{{ user.CivicsMoralRemark }}</td>
-            <td>{{ user.CivicsMoralSubject }}</td>
+            <td>{{ user.CMSCORE }}</td>
+            <td>{{ user.CMGRD }}</td>
+            <td>{{ user.CMPOS }}</td>
+            <td>{{ users.length }}</td>
+            <td>{{ user.CMRE }}</td>
+            <td>{{ user.CMETE }}</td>
+           
 
            
         </tr>
         <tr v-for="user in users" :key="user.id">
             <td>4</td>
             <td>Social Studies</td>
-            <td>{{ user.SocialStudiesScore }}</td>
-            <td>{{ user.SocialStudiesGrade }}</td>
-            <td>{{ user.subjectPositions['SocialStudies'] }}</td>
-            <td>{{ user.outOf }}</td>
-            <td>{{ user.SocialStudiesRemark }}</td>
-            <td>{{ user.SocialStudiesSubject }}</td>
+            <td>{{ user.SSTSCORE }}</td>
+            <td>{{ user.SSTGRD }}</td>
+            <td>{{ user.SSTPOS }}</td>
+            <td>{{ users.length }}</td>
+            <td>{{ user.SSTRE }}</td>
+            <td>{{ user.SSTTE }}</td>
+           
 
            
         </tr>
         <tr v-for="user in users" :key="user.id">
             <td>5</td>
             <td>Science Techn</td>
-            <td>{{ user.ScienceTechnScore }}</td>
-            <td>{{ user.ScienceTechnGrade }}</td>
-            <td>{{ user.subjectPositions['ScienceTechn'] }}</td>
-            <td>{{ user.outOf }}</td>
-            <td>{{ user.ScienceTechnRemark }}</td>
-            <td>{{ user.ScienceTechnSubject }}</td>
+            <td>{{ user.SCIESCORE }}</td>
+            <td>{{ user.SCIEGRD }}</td>
+            <td>{{ user.SCIEPOS }}</td>
+            <td>{{ users.length }}</td>
+            <td>{{ user.SCIERE }}</td>
+            <td>{{ user.SCIETE }}</td>
+           
 
 
            
@@ -163,12 +170,13 @@ const logout = () => {
         <tr v-for="user in users" :key="user.id">
             <td>6</td>
             <td>Mathematics</td>
-            <td>{{ user.MathematicsScore }}</td>
-            <td>{{ user.MathematicsGrade }}</td>
-            <td>{{ user.subjectPositions['Mathematics'] }}</td>
-            <td>{{ user.outOf }}</td>
-            <td>{{ user.MathematicsRemark }}</td>
-            <td>{{ user.MathematicsSubject }}</td>
+            <td>{{ user.MATHSCORE }}</td>
+            <td>{{ user.MATHGRD }}</td>
+            <td>{{ user.MATHPOS }}</td>
+            <td>{{ users.length }}</td>
+            <td>{{ user.MATHRE }}</td>
+            <td>{{ user.MATHTE }}</td>
+          
 
 
            
@@ -178,15 +186,18 @@ const logout = () => {
 
 <table>
     <tr v-for="user in users" :key="user.id">
-        <th>TOTAL MARKS: {{ user.totalScore }}</th>
-        <th>AVERAGE:  {{ user.averageScore }}</th>
-        <th>GRADE: {{ user.averageScoreGrade }}</th>
-        <th>REMARK: {{ user.averageScoreRemark}}</th>
-        <th> POSITION: {{ user.classPosition }} </th>
-        <th>OUTOF: {{ user.outOf }}students</th>
+        <th>TOTAL MARKS: {{ user.TOTAL }}</th>
+        <th>AVERAGE:  {{ user.AVERAGE }}</th>
+        <th>GRADE: {{ user.GRADE }}</th>
+        <th>REMARK: {{ user.REMARKS}}</th>
+        <th> POSITION: {{ user.POSITION }} </th>
+        <th>OUTOF: {{ users.length }}students</th>
     </tr>
 </table><br><br>
 
+<table>
+        <th class="grace">CHARACTER ASSESMENT.</th>
+</table>
 
 <table>
     <thead>
@@ -202,7 +213,7 @@ const logout = () => {
     <tbody>
         <tr v-for="user in users" :key="user.id">
             <td>REMARK</td>
-            <td>{{ user.Sport }}</td>
+            <td>{{ user.sports }}</td>
             <td>{{ user.Cooperation }}</td>
             <td>{{ user.Discipline }}</td>
             <td>{{ user.Cleanliness }}</td>
@@ -214,30 +225,30 @@ const logout = () => {
 
 <table>
     <thead>
-        <th>PRINCIPAL'S COMMENT</th>
+        <th class="grace">PRINCIPAL'S COMMENT</th>
     </thead>
     <tbody>
         <tr v-for="user in users" :key="user.id">
-            <td>{{ user.PrincipalComment }}</td>
+            <td>{{ user.principalcoment }}</td>
              
         </tr>
         <tr v-for="user in users" :key="user.id">
-            <td>Principal's Name: {{ user.PrincipalName }}  Phone No: {{ user.PhoneN }}</td>
+            <td>Principal's Name: {{ user.principalname }}  Phone No: {{ user.principalphone }}</td>
         </tr>
     </tbody>
 </table><br><br><br>
 
 <table>
     <thead>
-        <th>CLASS TEACHER'S COMMENT</th>
+        <th class="grace">CLASS TEACHER'S COMMENT</th>
     </thead>
     <tbody>
         <tr v-for="user in users" :key="user.id">
-            <td>{{ user.classteachercomment }}</td>
+            <td>{{ user.clasteachcoment }}</td>
              
         </tr>
         <tr v-for="user in users" :key="user.id">
-            <td>Principal's Name: {{ user.ClassTeacher }}  Phone No: {{ user.PhoneNo }}</td>
+            <td>Principal's Name: {{ user.clasteachname }}  Phone No: {{ user.clasteachphone }}</td>
         </tr>
     </tbody>
 </table><br><br>
@@ -251,8 +262,8 @@ const logout = () => {
     </thead>
     <tbody>
         <tr v-for="user in users" :key="user.id">
-            <td><img :src="user.photo1" class="h-20"></td>
-            <td><img :src="user.photo2" class="h-20"></td>
+            <td><img src="homes/img/logo/logo.png" class="h-20"></td>
+            <td><img src="homes/img/logo/logo.png" class="h-20"></td>
         </tr>
        
     </tbody>
@@ -261,7 +272,7 @@ const logout = () => {
 
 <table>
     <tr v-for="user in users" :key="user.id">
-        <th>DATE OF REPORTING {{ user.dob }}</th>
+        <th>DATE OF REPORTING {{ user.dop }}</th>
     </tr>
 </table>
 
@@ -273,12 +284,12 @@ const logout = () => {
     </thead>
    <tbody>
     <tr v-for="user in users" :key="user.id">
-        <td><img :src="user.photo2" class="h-20"></td>
+        <td><img src="homes/img/logo/logo.png" class="h-20"></td>
     </tr>
    </tbody>
    
 </table>
-
+</div>
    
   
 
@@ -295,41 +306,60 @@ const logout = () => {
 
 </template>
 
-<style>
 
-
-
-
-
-</style>
 
 
 <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    .table-container {
+        width: 100%; /* Enable horizontal scrolling on small screens */
+        overflow-x: auto; /* Add horizontal scroll bar if needed */
+    }
 
-        td, th {
-            text-align: center;
-            padding: 8px;
-            border: 1px solid black;
-        }
-        .grace {
-            background-color: gray;
-        }
-        
-       .grac {
-            background-color: yellow;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        .card-title{
-              text-align: center;
-              padding-left: 400px;
-         }
-         img {
+    td,
+    th {
+        text-align: center;
+        padding: 8px;
+        border: 1px solid black;
+    }
+
+    .grace {
+        background-color: gray;
+    }
+
+    .grac {
+        background-color: yellow;
+    }
+
+    .card-title {
+        text-align: center;
+        padding-left: 400px;
+    }
+
+    img {
         display: block; /* Make sure the image is a block element */
         margin: auto; /* Center the image horizontally */
     }
-      
-    </style>
+
+    /* Responsive CSS */
+    @media only screen and (max-width: 768px) {
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td,
+        th {
+            padding: 4px;
+            font-size: 0.8em; /* Adjust font size for smaller screens */
+        }
+    }
+</style>
+
