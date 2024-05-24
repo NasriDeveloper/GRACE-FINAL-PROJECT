@@ -34,10 +34,21 @@ const logout = () => {
     
 <AppLayout title="Dash">
 
+  <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking website</title>
+    <link rel="stylesheet" href="homes/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 
 
 
-<body>
+
+<body class="bg-color-primary text-color-white tracking-wider" >
     <!--== MAIN CONTRAINER ==-->
     <nav class="bg-red-700 text-white p-4 fixed top-0 w-full z-10">
   <div class="max-w-screen-xl mx-auto flex justify-between items-center">
@@ -58,7 +69,7 @@ const logout = () => {
 
             
 
-<div class="bg-green-700 text-white p-4">
+<div class="bg-gray-700 text-white p-4">
   <p class="text-center text-white">Welcome to the Grace Schools system!</p>
   <div class="text-center mt-4">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,6 +103,9 @@ const logout = () => {
   
    
 </body>
+
+</html>
+
 
 
 </AppLayout>

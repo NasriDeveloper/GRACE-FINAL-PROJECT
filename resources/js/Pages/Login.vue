@@ -31,15 +31,25 @@ const logout = () => {
 </script>
 
 <template>
-    
-<AppLayout title="Dash">
+   <div>
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking website</title>
+    <link rel="stylesheet" href="homes/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+  <AppLayout title="Dash">
 
 
 
 
-<body>
+<body class="bg-color-primary text-color-white tracking-wider">
     <!--== MAIN CONTRAINER ==-->
-    <nav class="bg-red-700 text-white p-4 fixed top-0 w-full z-10">
+    <nav class="bg-color-primary text-white p-4 fixed top-0 w-full z-10">
   <div class="max-w-screen-xl mx-auto flex justify-between items-center">
     <a href="#" class="text-2xl font-semibold" style="padding-bottom: 50px;">
       <img src="homes/img/logo/logo.png" class="h-8" alt="Flowbite Logo" />
@@ -48,7 +58,7 @@ const logout = () => {
     <div class="flex items-center space-x-4">
         <form @submit.prevent="logout">
                 <DropdownLink as="button">
-                <a class='waves-effect dropdown-button top-user-pro' data-activates='top-menu'>LOGOUT<i class="fa fa-angle-down" aria-hidden="true"></i>
+                <a class='waves-effect dropdown-button text-white  top-user-pro' data-activates='top-menu'>LOGOUT
                 </a>
                 </DropdownLink>
          </form>
@@ -56,14 +66,39 @@ const logout = () => {
   </div>
 </nav><br><br><br><br><br><br><br>
 
+<div class="bg-gray-700 text-white p-4">
+  <p class="text-center text-white">Welcome to the Grace Schools system! You can now view the report of your child.</p>
+  <div class="text-center mt-4">
+    <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+       <Link :href="'/repotk'" class="text-white">
+        VIEW REPORT(FOR FIVE AND SIX).
+        </Link>
+    </button>
+
+  </div>
+</div>
 
 
-<div class="bg-green-700 text-white p-4">
+
+<div class="bg-gray-700 text-white p-4">
   <p class="text-center text-white">Welcome to the Grace Schools system! You can now view the report of your child.</p>
   <div class="text-center mt-4">
     <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
        <Link :href="'/repot'" class="text-white">
         VIEW REPORT(FOR STANDARD THREE, FOUR AND SEVEN).
+        </Link>
+    </button>
+
+  </div>
+</div>
+
+
+<div class="bg-gray-700 text-white p-4">
+  <p class="text-center text-white">Welcome to the Grace Schools system! You can now view the report of your child.</p>
+  <div class="text-center mt-4">
+    <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+       <Link :href="'/repoty'" class="text-white">
+        VIEW REPORT(FOR FIVE AND SIX).
         </Link>
     </button>
 
@@ -79,7 +114,7 @@ const logout = () => {
 
 
 
-<div class="flex justify-between items-center mt-6 bg-red-700 text-white">
+<div class="flex justify-between items-center mt-6 bg-gray-700 text-white">
   <div class="w-full md:w-1/1 md:mx-6 p-6 bg-white border border-gray-900 rounded-md shadow overflow-hidden dark:bg-gray-800 dark:border-gray-700">
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">ABOUT THIS SYSTEM</h5>
 
@@ -201,5 +236,10 @@ const logout = () => {
 
 
 </AppLayout>
+</html>
+  
+   </div>
+    
+
 
 </template>

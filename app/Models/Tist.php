@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Clasfi extends Model
+class Tist extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -37,34 +37,18 @@ class Clasfi extends Model
         'mathgrd',
         'mathpos',
         'mathre',
-        'v/skillsscore',
-        'v/skillsgrd',
-        'v/skillspos',
-        'v/skillsre',
+        'vskillsscore',
+        'vskillsgrd',
+        'vskillspos',
+        'vskillsre',
         'total',
         'average',
         'position',
         'grade',
         'stream', 
-        'sports',
-        'cooperation',
-        'discipline',
-        'cleanliness',
-        'hardworking',
         'remarks',    
-        'clasteachcoment',
-        'clasteachname',
-        'clasteachphone',
-        'principalcoment',
-        'principalname',
-        'principalphone',
         'class',
-        'engte',
-        'kiswte',
-        'cmete',
-        'sstte',
-        'sciete',
-        'mathte',
+       
       
 
 

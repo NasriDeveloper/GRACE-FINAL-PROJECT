@@ -34,7 +34,7 @@ defineProps({
   <div class="max-w-screen-xl mx-auto flex justify-between items-center">
     <a href="#" class="text-2xl font-semibold">
       <img src="homes/img/logo/logo.png" class="h-8" alt="Flowbite Logo" />
-      Graceschools
+      
     </a>
     
     <div class="flex items-center space-x-4">
@@ -53,7 +53,7 @@ defineProps({
    
 
     <main>
-        <section id="home" class="relative">
+        <section id="home" class="bg-color-gray">
 
             <div class="blob1"></div>
 
@@ -197,7 +197,7 @@ defineProps({
         <section id="testimonial">
             <div class="container py-20">
                 <div class="text-center m-auto mb-20 md:w-1/2">
-                    <h4 class="font-bold text-color-secondary mb-4" style="font-size: 4.5rem;">ABOUT THIS SYSTEM.</h4><br>
+                    <h4 class="font-bold text-color-secondary mb-4" style="font-size: 4.5rem;">ABOUT THIS</h4><br>
                     <h4 class="font-bold text-color-secondary mb-4" style="font-size: 4.5rem;">SYSTEM.</h4><br>
                     <h1 class="title">All About This GraceSchools System Explained Here.</h1>
                 </div>
@@ -348,7 +348,7 @@ Together, we can work towards creating a safe, supportive, and collaborative lea
 
 
                     <div class="flex justify-center pt-10 border-t border-color-gray">
-                        <p>2023 &copy; LightCode. All Rights Reserved.</p>
+                        <p>2024 &copy; Nasri. All Rights Reserved. 0760178294.</p>
                     </div>
                 </div>
             </div>

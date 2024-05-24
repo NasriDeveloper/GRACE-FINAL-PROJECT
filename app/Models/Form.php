@@ -14,6 +14,7 @@ class Form extends Model
         'lastName',
         'parentfirstName',
         'parentlastName',
+        'email',
         'class',
         'yearOfEntry',
         'gender',

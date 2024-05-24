@@ -4,9 +4,9 @@ namespace App\Imports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use App\Models\Tast;
+use App\Models\Tist;
 
-class ClasfoImport implements ToCollection
+class ClasfiImport implements ToCollection
 {
     /**
     * @param Collection $collection
@@ -14,11 +14,11 @@ class ClasfoImport implements ToCollection
     public function collection(Collection $rows)
     {
         // Define the expected number of columns for each row
-        $expectedColumnCount = 35;
+        $expectedColumnCount = 39;
     
         foreach ($rows as $row) {
             // Check if the current row has the expected number of columns
-            if (count($row) < 35) {
+            if (count($row) < 39) {
                 // Log a warning and skip this row
                 error_log('Row has insufficient columns: ' . json_encode($row));
                 continue;
@@ -27,7 +27,7 @@ class ClasfoImport implements ToCollection
             // Try-catch block to handle exceptions during data processing
             try {
                 // Create a new Clasfo record if $row has sufficient data
-                Tast::create([
+                Tist::create([
                     's/n' => $row[0],
                     'sex' => $row[1],
                     'name' => $row[2],
@@ -56,14 +56,18 @@ class ClasfoImport implements ToCollection
                     'mathgrd' => $row[25],
                     'mathpos' => $row[26],
                     'mathre' => $row[27],
-                    'total' => $row[28],
-                    'average' => $row[29],
-                    'position' => $row[30],
-                    'grade' => $row[31],
-                    'stream' => $row[32],
-                    'remarks' => $row[33],
-                    'class' => $row[34],
-                
+                    'vskillsscore' => $row[28],
+                    'vskillsgrd' => $row[29],
+                    'vskillspos' => $row[30],
+                    'vskillsre' => $row[31],
+                    'total' => $row[32],
+                    'average' => $row[33],
+                    'position' => $row[34],
+                    'grade' => $row[35],
+                    'stream' => $row[36],
+                    'remarks' => $row[37],
+                    'class' => $row[38],
+                   
                 ]);
                 
             

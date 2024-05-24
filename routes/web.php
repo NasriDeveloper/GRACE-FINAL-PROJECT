@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Imports\ClasfoImport;
+use App\Imports\ClasfiImport;
+use App\Imports\ClasfaImport;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Form;
@@ -12,6 +14,8 @@ use App\Models\Paret;
 use App\Models\Report;
 use App\Models\Repog;
 use App\Models\Tast;
+use App\Models\Tost;
+use App\Models\Tist;
 use App\Models\Repom;
 use App\Models\Repoz;
 use App\Models\Repob;
@@ -63,6 +67,14 @@ Route::get('/repotmn', function(){
 Route::get('/excel', function(){
     return Inertia::render('Excel');
 })->name('excel');
+
+Route::get('/excely', function(){
+    return Inertia::render('Excel5');
+})->name('excely');
+
+Route::get('/exceli', function(){
+    return Inertia::render('Excel2');
+})->name('exceli');
 
 
 
@@ -720,6 +732,7 @@ Route::post('/Submitform', function (Request $request) {
         'lastName' => 'required|string',
         'parentfirstName' => 'required|string',
         'parentlastName' => 'required|string',
+        'email' => 'required|email',
         'class' => 'required|integer',
         'yearOfEntry' => 'required|numeric',
         'gender' => 'required|string',
@@ -1053,6 +1066,34 @@ Route::post('/Submitexcel', function (Request $request) {
  })->name('Submitexcel');
 
 
+ Route::post('/Submitexcelo', function (Request $request) {
+    
+    $request->validate([
+        'excel' => [
+         'required',
+         'file'
+        ],
+    ]);
+ 
+
+    Excel::import(new ClasfaImport, $request->file('excel'));
+ 
+     
+             
+ })->name('Submitexcelo');
+
+ Route::post('/Submitexcely', function (Request $request) {
+    
+    $request->validate([
+        'excel' => [
+         'required',
+         'file'
+        ],
+    ]);
+    Excel::import(new ClasfiImport, $request->file('excel'));      
+ })->name('Submitexcely');
+
+
 Route::post('/ClassTeacher', function (Request $request) {
     // Validate the form data
     $validatedData = $request->validate([
@@ -1180,28 +1221,150 @@ Route::put('/uters/{uter}', function(Request $request, Paret $uter){
     
 });
 
-
 Route::get('repot', function () {
-    // Get the specific user's email
-    $email = Auth::user()->email;
+    // Get the authenticated user
+    $user = Auth::user();
+    
+    // Retrieve Tast records for the user's email
+    $usersData = Tast::where('email', $user->email)->get();
+    
+    // Retrieve Form records for the user's email
+    $uters = Form::where('email', $user->email)->get();
 
-    $users=Tast::where('email','=', $email)->get(); 
-
-    // Check if the user's email exists in the repot table
-    $userExistsInRepot = Tast::where('email', $email)->exists();
-
-    // If the user's email doesn't exist in the repot table, redirect them
-    if (!$userExistsInRepot) {
+    // Redirect if the user's email doesn't exist in the Tast table
+    if (!$usersData->count()) {
         return redirect()->route('AdAll');
     }
 
+    // Calculate total counts for each class
+    $totalClassCounts = Tast::whereIn('class', $usersData->pluck('class')->unique())
+                            ->select('class', DB::raw('count(*) as total'))
+                            ->groupBy('class')
+                            ->get()
+                            ->keyBy('class');
 
+    // Group `users` data based on their primary key (`id`) to separate rows in the database
+    $groupedUsers = $usersData->groupBy('id');
 
-   
+    // For each group of users, calculate and assign the class total
+    $groupedUsers->transform(function($group) use ($totalClassCounts) {
+        return $group->map(function($user) use ($totalClassCounts) {
+            $classTotal = $totalClassCounts->get($user->class)->total ?? 0;
+            $user->classTotal = $classTotal;
+            return $user;
+        });
+    });
+
+    // Modify the photo URL for each `uter` in the collection
+    $uters->each(function($uter) {
+        $uter->photo = asset('photos/' . $uter->photo);
+    });
+
+    // Render the view with grouped `users` data and `uters`
     return Inertia::render('PaRreport', [
-        'users' => $users,
+        'groupedUsers' => $groupedUsers, // Pass grouped `users` data by primary key (`id`)
+        'uters' => $uters,
     ]);
 })->name('repot');
+
+
+Route::get('repoty', function () {
+    // Get the authenticated user
+    $user = Auth::user();
+    
+    // Retrieve Tast records for the user's email
+    $usersData = Tist::where('email', $user->email)->get();
+    
+    // Retrieve Form records for the user's email
+    $uters = Form::where('email', $user->email)->get();
+
+    // Redirect if the user's email doesn't exist in the Tast table
+    if (!$usersData->count()) {
+        return redirect()->route('AdAll');
+    }
+
+    // Calculate total counts for each class
+    $totalClassCounts = Tist::whereIn('class', $usersData->pluck('class')->unique())
+                            ->select('class', DB::raw('count(*) as total'))
+                            ->groupBy('class')
+                            ->get()
+                            ->keyBy('class');
+
+    // Group `users` data based on their primary key (`id`) to separate rows in the database
+    $groupedUsers = $usersData->groupBy('id');
+
+    // For each group of users, calculate and assign the class total
+    $groupedUsers->transform(function($group) use ($totalClassCounts) {
+        return $group->map(function($user) use ($totalClassCounts) {
+            $classTotal = $totalClassCounts->get($user->class)->total ?? 0;
+            $user->classTotal = $classTotal;
+            return $user;
+        });
+    });
+
+    // Modify the photo URL for each `uter` in the collection
+    $uters->each(function($uter) {
+        $uter->photo = asset('photos/' . $uter->photo);
+    });
+
+    // Render the view with grouped `users` data and `uters`
+    return Inertia::render('PaRreport5', [
+        'groupedUsers' => $groupedUsers, // Pass grouped `users` data by primary key (`id`)
+        'uters' => $uters,
+    ]);
+})->name('repoty');
+
+Route::get('repotk', function () {
+    // Get the authenticated user
+    $user = Auth::user();
+    
+    // Retrieve Tast records for the user's email
+    $usersData = Tost::where('email', $user->email)->get();
+    
+    // Retrieve Form records for the user's email
+    $uters = Form::where('email', $user->email)->get();
+
+    // Redirect if the user's email doesn't exist in the Tast table
+    if (!$usersData->count()) {
+        return redirect()->route('AdAll');
+    }
+
+    // Calculate total counts for each class
+    $totalClassCounts = Tost::whereIn('class', $usersData->pluck('class')->unique())
+                            ->select('class', DB::raw('count(*) as total'))
+                            ->groupBy('class')
+                            ->get()
+                            ->keyBy('class');
+
+    // Group `users` data based on their primary key (`id`) to separate rows in the database
+    $groupedUsers = $usersData->groupBy('id');
+
+    // For each group of users, calculate and assign the class total
+    $groupedUsers->transform(function($group) use ($totalClassCounts) {
+        return $group->map(function($user) use ($totalClassCounts) {
+            $classTotal = $totalClassCounts->get($user->class)->total ?? 0;
+            $user->classTotal = $classTotal;
+            return $user;
+        });
+    });
+
+    // Modify the photo URL for each `uter` in the collection
+    $uters->each(function($uter) {
+        $uter->photo = asset('photos/' . $uter->photo);
+    });
+
+    // Render the view with grouped `users` data and `uters`
+    return Inertia::render('PaRreport1', [
+        'groupedUsers' => $groupedUsers, // Pass grouped `users` data by primary key (`id`)
+        'uters' => $uters,
+    ]);
+})->name('repotk');
+
+
+
+
+
+
 
 
 

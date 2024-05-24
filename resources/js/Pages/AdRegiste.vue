@@ -116,6 +116,11 @@ const logout = () => {
             required
           />
         </div>
+         
+        <div class="form-group">
+              <label for="email">Parent's Email:</label>
+              <input v-model="formData.email" type="text" id="email" name="email" class="form-control" required>
+        </div>
 
         <div class="form-group">
           <label for="class">Class:</label>
@@ -345,6 +350,7 @@ export default {
             middleName: '',
             lastName: '',
             parentfirstName: '',
+            email: '',
             parentlastName: '',
             class: null, // Initialize as null
             yearOfEntry: null, // Initialize as null
